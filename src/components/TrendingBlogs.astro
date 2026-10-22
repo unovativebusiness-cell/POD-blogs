@@ -1,0 +1,25 @@
+---
+import type { Article } from '../lib/strapi';
+import BlogCard from './BlogCard.astro';
+
+interface Props {
+  blogs: Article[];
+}
+
+const { blogs } = Astro.props;
+---
+
+<section class="trending" aria-labelledby="trending-title">
+  <h1 id="trending-title">Trending <span class="fire" aria-hidden="true">🔥</span></h1>
+  {
+    blogs.length === 0 ? (
+      <p class="empty-state">No trending blogs at the moment.</p>
+    ) : (
+      <div class="trending-grid">
+        {blogs.map((blog) => (
+          <BlogCard blog={blog} />
+        ))}
+      </div>
+    )
+  }
+</section>

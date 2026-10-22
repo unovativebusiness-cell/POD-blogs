@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://podbharat.photographerondemand.in/sitemap-index.xml

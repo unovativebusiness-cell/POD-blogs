@@ -1,0 +1,116 @@
+---
+import type { Feature } from '../lib/pod';
+
+interface Props {
+  features: Feature[];
+}
+
+const { features } = Astro.props;
+const path = Astro.url.pathname;
+const blogsActive = path === '/blogs' || path.startsWith('/blogs/');
+---
+
+<header class="site-header">
+  <input id="nav-toggle" class="nav-toggle" type="checkbox" />
+  <div class="header-bar">
+    <a class="logo" href="/blogs" aria-label="POD blogs home">
+      <img src="/icons/logo.png" alt="POD" width="128" height="48" />
+    </a>
+
+    <nav class="desktop-nav" aria-label="Primary">
+      {
+        features.length > 0 && (
+          <details class="nav-drop features">
+            <summary>Features</summary>
+            <div class="features-panel">
+              {features.map((feature) => (
+                <a class="feature-card" href={feature.url} target="_blank" rel="noopener noreferrer">
+                  {feature.logo && <img src={feature.logo} alt="" width="58" height="58" />}
+                  <strong>{feature.name}</strong>
+                  <p>{feature.description}</p>
+                </a>
+              ))}
+            </div>
+          </details>
+        )
+      }
+
+      <details class="nav-drop discover">
+        <summary>Discover</summary>
+        <div class="discover-menu">
+          <a href="https://photographerondemand.in/podian" target="_blank" rel="noopener noreferrer">PODIAN</a>
+          <a href="https://photographerondemand.in/gallery" target="_blank" rel="noopener noreferrer">Gallery</a>
+        </div>
+      </details>
+
+      <a class:list={['nav-link', { active: blogsActive }]} href="/blogs">Blogs</a>
+      <a class="nav-link" href="https://photographerondemand.in/aboutus" target="_blank" rel="noopener noreferrer">About Us</a>
+      <a class="nav-link" href="https://photographerondemand.in/contactus" target="_blank" rel="noopener noreferrer">Contact Us</a>
+    </nav>
+
+    <a class="download-btn" href="https://play.google.com/store/apps/details?id=com.seawindsolution.pod" target="_blank" rel="noopener noreferrer">
+      Download App
+    </a>
+
+    <label class="menu-toggle" for="nav-toggle">
+      <span class="hamburger" aria-hidden="true"><span></span><span></span><span></span></span>
+      <span class="sr-only">Open menu</span>
+    </label>
+  </div>
+
+  <div class="drawer">
+    <div class="drawer-top">
+      <img src="/icons/logo-light.png" alt="POD" />
+      <label class="drawer-close" for="nav-toggle" aria-label="Close menu">×</label>
+    </div>
+    <nav aria-label="Mobile">
+      <a href="https://photographerondemand.in/aboutus"><img src="/icons/about.png" alt="" />About Us</a>
+      <a href="https://photographerondemand.in/contactus"><img src="/icons/contact.png" alt="" />Contact Us</a>
+      <a href="/blogs"><img src="/icons/features.png" alt="" />Blogs</a>
+      <a href="https://photographerondemand.in/podian"><img src="/icons/podian.png" alt="" />PODIAN</a>
+      <a href="https://photographerondemand.in/gallery"><img src="/icons/gallery.png" alt="" />Gallery</a>
+      {
+        features.length > 0 && (
+          <div class="drawer-group">
+            <span class="drawer-label">Features</span>
+            {features.map((feature) => (
+              <a href={feature.url} target="_blank" rel="noopener noreferrer">
+                {feature.name}
+              </a>
+            ))}
+          </div>
+        )
+      }
+    </nav>
+  </div>
+</header>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+  }
+</style>
+
+<script>
+  document.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof Node)) return;
+    document.querySelectorAll('details.nav-drop[open]').forEach((menu) => {
+      if (!menu.contains(target)) menu.removeAttribute('open');
+    });
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    const toggle = document.querySelector<HTMLInputElement>('#nav-toggle');
+    if (toggle) toggle.checked = false;
+    document.querySelectorAll('details.nav-drop[open]').forEach((menu) => menu.removeAttribute('open'));
+  });
+</script>

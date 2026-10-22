@@ -1,0 +1,27 @@
+{
+  "name": "pod-blogs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unovativebusiness-cell/POD-blogs.git"
+  },
+  "keywords": [],
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/unovativebusiness-cell/POD-blogs/issues"
+  },
+  "homepage": "https://github.com/unovativebusiness-cell/POD-blogs#readme",
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.4.2",
+    "marked": "^18.1.1"
+  }
+}

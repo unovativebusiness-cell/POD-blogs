@@ -1,0 +1,28 @@
+---
+import type { ArticleCard } from '../lib/strapi';
+import { formatDate } from '../lib/format';
+
+interface Props {
+  blog: ArticleCard;
+  date?: string;
+}
+
+const { blog, date = formatDate(blog.publishedAt) } = Astro.props;
+---
+
+<a class="blog-card" href={`/blogs/${blog.slug}`}>
+  <div class="image-wrap">
+    <img
+      src={blog.image}
+      srcset={blog.imageSrcSet || undefined}
+      sizes="(max-width: 600px) 100vw, (max-width: 992px) 50vw, 33vw"
+      alt={blog.imageAlt}
+      loading="lazy"
+    />
+  </div>
+  <div class="content">
+    <h3>{blog.title}</h3>
+    <p class="date">{date}</p>
+    <span class="read-more">Read More</span>
+  </div>
+</a>

@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TrendingBlogs from './TrendingBlogs.astro';
+import AllBlogs from './AllBlogs.astro';
+import {
+  PAGE_SIZE,
+  byCreated,
+  categoryOptions,
+  getArticles,
+  pageCount,
+  pageSlice,
+  trendingArticles,
+} from '../lib/strapi';
+
+interface Props {
+  page: number;
+}
+
+const { page } = Astro.props;
+const articles = byCreated(await getArticles(), 'desc');
+const totalPages = pageCount(articles.length);
+const blogs = pageSlice(articles, page);
+const trending = trendingArticles(articles, 4);
+const categories = categoryOptions(articles);
+const site = Astro.site ?? new URL('https://podbharat.photographerondemand.in');
+const path = page <= 1 ? '/blogs' : `/blogs/page/${page}`;
+const canonical = new URL(path, site).href;
+const prev = page > 1 ? new URL(page === 2 ? '/blogs' : `/blogs/page/${page - 1}`, site).href : null;
+const next = page < totalPages ? new URL(`/blogs/page/${page + 1}`, site).href : null;
+const title = page <= 1 ? 'Blogs | POD' : `Blogs — Page ${page} | POD`;
+const description =
+  'Stories, guides, and photography updates from POD. Browse the top trending posts and the full blog archive.';
+const image = trending[0]?.image || blogs[0]?.image || null;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: title,
+  description,
+  url: canonical,
+  isPartOf: {
+    '@type': 'Blog',
+    name: 'POD Blogs',
+    url: new URL('/blogs', site).href,
+  },
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: blogs.length,
+    itemListElement: blogs.map((blog, index) => ({
+      '@type': 'ListItem',
+      position: (page - 1) * PAGE_SIZE + index + 1,
+      url: new URL(`/blogs/${blog.slug}`, site).href,
+      name: blog.title,
+    })),
+  },
+};
+---
+
+<BaseLayout title={title} description={description} image={image} canonical={canonical} prev={prev} next={next} jsonLd={jsonLd}>
+  <div class="blogs-page">
+    {page === 1 && <TrendingBlogs blogs={trending} />}
+    <AllBlogs
+      blogs={blogs}
+      allBlogs={articles}
+      categories={categories}
+      page={page}
+      totalPages={totalPages}
+      total={articles.length}
+    />
+  </div>
+</BaseLayout>

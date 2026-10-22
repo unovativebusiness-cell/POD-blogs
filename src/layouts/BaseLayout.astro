@@ -1,0 +1,76 @@
+---
+import '../styles/global.css';
+import '../styles/blogs.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getSiteChrome } from '../lib/pod';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string | null;
+  canonical?: string;
+  ogType?: 'website' | 'article';
+  prev?: string | null;
+  next?: string | null;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+}
+
+const {
+  title,
+  description,
+  image,
+  canonical = Astro.url.href,
+  ogType = 'website',
+  prev,
+  next,
+  jsonLd,
+} = Astro.props;
+
+const chrome = await getSiteChrome();
+const schemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const json = JSON.stringify(schemas.length === 1 ? schemas[0] : schemas).replace(/</g, '\\u003c');
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#111111" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    {prev && <link rel="prev" href={prev} />}
+    {next && <link rel="next" href={next} />}
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    {image && <meta property="og:image" content={image} />}
+    <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {image && <meta name="twitter:image" content={image} />}
+    {schemas.length > 0 && <script type="application/ld+json" set:html={json} />}
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <Header features={chrome.features} />
+    <main id="content">
+      <slot />
+    </main>
+    <Footer
+      blurb={chrome.blurb}
+      officeLabel={chrome.officeLabel}
+      officeValue={chrome.officeValue}
+    />
+  </body>
+</html>
