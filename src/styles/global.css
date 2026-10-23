@@ -93,20 +93,12 @@ input {
 .logo {
   display: inline-flex;
   align-items: center;
-  gap: 0.55rem;
   text-decoration: none;
 }
 
-.logo .logo-mark {
+.logo .logo-full {
   display: block;
-  width: 2.85rem;
-  height: 2.85rem;
-  object-fit: contain;
-}
-
-.logo .logo-word {
-  display: block;
-  width: 4.6rem;
+  width: 8rem;
   height: auto;
 }
 
@@ -564,13 +556,8 @@ body:has(.nav-toggle:checked) {
     padding: 20px 0;
   }
 
-  .logo .logo-mark {
-    width: 2.4rem;
-    height: 2.4rem;
-  }
-
-  .logo .logo-word {
-    width: 3.8rem;
+  .logo .logo-full {
+    width: 6.5rem;
   }
 
   .footer-grid,

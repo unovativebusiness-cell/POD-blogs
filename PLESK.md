@@ -67,12 +67,13 @@ Click **Restart App**.
 ## 4. What `app.cjs` does
 
 ```js
-// CommonJS wrapper for Passenger
-// dynamically imports dist/server/entry.mjs
+// CommonJS wrapper for Passenger (require-safe)
+// serves dist/client static files (/_astro/*, /icons/*, favicon)
+// then hands SSR to dist/server/entry.mjs
 // listens on Passenger socket (or PORT locally)
 ```
 
-If Plesk says the startup file is missing, upload `app.cjs` into Application Root and set Startup File to `app.cjs`.
+Upload `app.cjs`, set Startup File to `app.cjs`. Without the static layer, CSS/icons 404 and the logo looks broken.
 
 If it says the entry is missing, run `npm run build` so `dist/server/entry.mjs` exists.
 
