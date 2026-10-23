@@ -9,7 +9,8 @@ export default defineConfig({
   site,
   output: 'server',
   adapter: node({
-    mode: 'standalone',
+    // Plesk Passenger expects an exported handler, not a process that calls listen().
+    mode: 'middleware',
   }),
   trailingSlash: 'never',
   integrations: [sitemap()],
