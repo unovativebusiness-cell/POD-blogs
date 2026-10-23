@@ -28,7 +28,7 @@ Upload / git-clone the repo into the domain folder, e.g.:
 
 | Field | Value |
 |---|---|
-| Node.js | Enable (v18+ or your current 21.x is fine) |
+| Node.js | Enable **20.x LTS** or **22.x** (not 21.x — Astro rejects Node 21) |
 | Application Root | `/writing.photographerondemand.in` (folder with `package.json`) |
 | Application Startup File | `app.js` |
 | Application Mode | `production` |
