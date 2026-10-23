@@ -90,9 +90,23 @@ input {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-.logo img {
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  text-decoration: none;
+}
+
+.logo .logo-mark {
   display: block;
-  width: 8rem;
+  width: 2.85rem;
+  height: 2.85rem;
+  object-fit: contain;
+}
+
+.logo .logo-word {
+  display: block;
+  width: 4.6rem;
   height: auto;
 }
 
@@ -550,8 +564,13 @@ body:has(.nav-toggle:checked) {
     padding: 20px 0;
   }
 
-  .logo img {
-    width: 6.5rem;
+  .logo .logo-mark {
+    width: 2.4rem;
+    height: 2.4rem;
+  }
+
+  .logo .logo-word {
+    width: 3.8rem;
   }
 
   .footer-grid,

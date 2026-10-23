@@ -14,7 +14,7 @@ if (!article) {
   return new Response(null, { status: 404, statusText: 'Not Found' });
 }
 
-const site = Astro.site ?? new URL('https://writing.photographerondemand.in');
+const site = Astro.site ?? new URL('https://podbharat.photographerondemand.in');
 const canonical = new URL(`/blogs/${article.slug}`, site).href;
 const description = article.description || article.title;
 const title = `POD: ${article.title}`;

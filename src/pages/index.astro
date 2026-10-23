@@ -1,0 +1,8 @@
+---
+const home = (
+  import.meta.env.HOME_URL ||
+  process.env.HOME_URL ||
+  'https://podbharat.photographerondemand.in/blogs'
+).replace(/\/$/, '');
+return Astro.redirect(home, 302);
+---

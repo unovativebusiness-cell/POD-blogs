@@ -7,6 +7,11 @@ interface Props {
 
 const { blurb, officeLabel, officeValue } = Astro.props;
 const year = new Date().getFullYear();
+const blogsHome = (
+  import.meta.env.HOME_URL ||
+  process.env.HOME_URL ||
+  'https://podbharat.photographerondemand.in/blogs'
+).replace(/\/$/, '');
 
 const company = [
   ['About', 'https://photographerondemand.in/aboutus'],
@@ -36,7 +41,7 @@ const legal = [
 
     <div class="footer-grid">
       <div>
-        <a class="footer-brand" href="/blogs" aria-label="POD home">
+        <a class="footer-brand" href={blogsHome} aria-label="POD home">
           <img src="/icons/mark.png" alt="" width="46" height="46" />
           <img src="/icons/wordmark.png" alt="POD" width="74" height="26" />
         </a>
@@ -52,7 +57,7 @@ const legal = [
           <h2>Menu</h2>
           <a href="https://photographerondemand.in/gallery" target="_blank" rel="noopener noreferrer">Gallery</a>
           <a href="https://photographerondemand.in/podian" target="_blank" rel="noopener noreferrer">Join PODIANS</a>
-          <a href="/blogs">Blogs</a>
+          <a href={blogsHome}>Blogs</a>
         </div>
         <div class="footer-col">
           <h2>Company</h2>

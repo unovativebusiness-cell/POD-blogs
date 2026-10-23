@@ -8,13 +8,19 @@ interface Props {
 const { features } = Astro.props;
 const path = Astro.url.pathname;
 const blogsActive = path === '/blogs' || path.startsWith('/blogs/');
+const blogsHome = (
+  import.meta.env.HOME_URL ||
+  process.env.HOME_URL ||
+  'https://podbharat.photographerondemand.in/blogs'
+).replace(/\/$/, '');
 ---
 
 <header class="site-header">
   <input id="nav-toggle" class="nav-toggle" type="checkbox" />
   <div class="header-bar">
-    <a class="logo" href="/blogs" aria-label="POD blogs home">
-      <img src="/icons/logo.png" alt="POD" width="128" height="48" />
+    <a class="logo" href={blogsHome} aria-label="POD blogs home">
+      <img class="logo-mark" src="/icons/mark.png" alt="" width="48" height="48" />
+      <img class="logo-word" src="/icons/wordmark.png" alt="POD" width="74" height="26" />
     </a>
 
     <nav class="desktop-nav" aria-label="Primary">
@@ -43,7 +49,7 @@ const blogsActive = path === '/blogs' || path.startsWith('/blogs/');
         </div>
       </details>
 
-      <a class:list={['nav-link', { active: blogsActive }]} href="/blogs">Blogs</a>
+      <a class:list={['nav-link', { active: blogsActive }]} href={blogsHome}>Blogs</a>
       <a class="nav-link" href="https://photographerondemand.in/aboutus" target="_blank" rel="noopener noreferrer">About Us</a>
       <a class="nav-link" href="https://photographerondemand.in/contactus" target="_blank" rel="noopener noreferrer">Contact Us</a>
     </nav>
@@ -66,7 +72,7 @@ const blogsActive = path === '/blogs' || path.startsWith('/blogs/');
     <nav aria-label="Mobile">
       <a href="https://photographerondemand.in/aboutus"><img src="/icons/about.png" alt="" />About Us</a>
       <a href="https://photographerondemand.in/contactus"><img src="/icons/contact.png" alt="" />Contact Us</a>
-      <a href="/blogs"><img src="/icons/features.png" alt="" />Blogs</a>
+      <a href={blogsHome}><img src="/icons/features.png" alt="" />Blogs</a>
       <a href="https://photographerondemand.in/podian"><img src="/icons/podian.png" alt="" />PODIAN</a>
       <a href="https://photographerondemand.in/gallery"><img src="/icons/gallery.png" alt="" />Gallery</a>
       {
