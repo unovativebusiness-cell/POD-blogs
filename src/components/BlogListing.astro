@@ -22,7 +22,7 @@ const totalPages = pageCount(articles.length);
 const blogs = pageSlice(articles, page);
 const trending = trendingArticles(articles, 4);
 const categories = categoryOptions(articles);
-const site = Astro.site ?? new URL('https://podbharat.photographerondemand.in');
+const site = Astro.site ?? new URL('https://writing.photographerondemand.in');
 const path = page <= 1 ? '/blogs' : `/blogs/page/${page}`;
 const canonical = new URL(path, site).href;
 const prev = page > 1 ? new URL(page === 2 ? '/blogs' : `/blogs/page/${page - 1}`, site).href : null;

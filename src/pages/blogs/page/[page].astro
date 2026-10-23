@@ -2,14 +2,18 @@
 import BlogListing from '../../../components/BlogListing.astro';
 import { getArticles, pageCount } from '../../../lib/strapi';
 
-export async function getStaticPaths() {
-  const totalPages = pageCount((await getArticles()).length);
-  return Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) => ({
-    params: { page: String(index + 2) },
-  }));
+const page = Number(Astro.params.page);
+const totalPages = pageCount((await getArticles()).length);
+
+if (!Number.isFinite(page) || page < 2) {
+  return Astro.redirect('/blogs');
 }
 
-const page = Number(Astro.params.page);
+if (page > totalPages) {
+  return new Response(null, { status: 404, statusText: 'Not Found' });
+}
+
+Astro.response.headers.set('Cache-Control', 'public, s-maxage=60, stale-while-revalidate=300');
 ---
 
 <BlogListing page={page} />

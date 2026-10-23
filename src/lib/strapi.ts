@@ -1,6 +1,12 @@
 import { absoluteUrl, repairText } from './format';
 
-const STRAPI_URL = (import.meta.env.STRAPI_URL || 'https://strapi.unovative.com').replace(/\/$/, '');
+function env(name: string, fallback: string): string {
+  const fromProcess = typeof process !== 'undefined' ? process.env[name] : undefined;
+  const fromImport = (import.meta.env as Record<string, string | undefined>)[name];
+  return (fromProcess || fromImport || fallback).replace(/\/$/, '');
+}
+
+const STRAPI_URL = env('STRAPI_URL', 'https://strapi.unovative.com');
 const FALLBACK_IMAGE =
   'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?auto=format&fit=crop&w=1200&q=80';
 
@@ -79,8 +85,10 @@ type RawArticle = {
 
 type Cache = {
   articles?: Promise<Article[]>;
+  expiresAt?: number;
 };
 
+const CACHE_TTL_MS = Number(env('STRAPI_CACHE_TTL_MS', '60000'));
 const cache: Cache = ((globalThis as unknown as { __podArticles?: Cache }).__podArticles ??= {});
 
 function mediaUrl(path: string | null | undefined): string | null {
@@ -230,7 +238,15 @@ async function loadArticles(): Promise<Article[]> {
 }
 
 export function getArticles(): Promise<Article[]> {
-  cache.articles ??= loadArticles();
+  const now = Date.now();
+  if (!cache.articles || !cache.expiresAt || now >= cache.expiresAt) {
+    cache.articles = loadArticles().catch((error) => {
+      cache.articles = undefined;
+      cache.expiresAt = undefined;
+      throw error;
+    });
+    cache.expiresAt = now + Math.max(0, CACHE_TTL_MS);
+  }
   return cache.articles;
 }
 

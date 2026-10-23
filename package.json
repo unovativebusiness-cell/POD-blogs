@@ -4,10 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "start": "node app.js"
+  },
+  "engines": {
+    "node": ">=18.17.0"
   },
   "repository": {
     "type": "git",
@@ -20,6 +23,7 @@
   },
   "homepage": "https://github.com/unovativebusiness-cell/POD-blogs#readme",
   "dependencies": {
+    "@astrojs/node": "^11.1.9",
     "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.4.2",
     "marked": "^18.1.1"

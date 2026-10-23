@@ -1,15 +1,20 @@
 import { defineConfig } from 'astro/config';
+import node from '@astrojs/node';
 import sitemap from '@astrojs/sitemap';
 
-const site = (process.env.SITE || 'https://podbharat.photographerondemand.in').replace(/\/$/, '');
+const site = (process.env.SITE || 'https://writing.photographerondemand.in').replace(/\/$/, '');
+const homeUrl = (process.env.HOME_URL || process.env.SITE || site).replace(/\/$/, '');
 
 export default defineConfig({
   site,
-  output: 'static',
+  output: 'server',
+  adapter: node({
+    mode: 'standalone',
+  }),
   trailingSlash: 'never',
   integrations: [sitemap()],
   redirects: {
-    '/': site,
+    '/': homeUrl,
     '/blog': '/blogs',
     '/blogs/page/1': '/blogs',
   },

@@ -13,7 +13,13 @@ export interface SiteChrome {
   features: Feature[];
 }
 
-const POD_API = (import.meta.env.POD_API_URL || 'https://api.photographerondemand.in/').replace(/\/?$/, '/');
+function env(name: string, fallback: string): string {
+  const fromProcess = typeof process !== 'undefined' ? process.env[name] : undefined;
+  const fromImport = (import.meta.env as Record<string, string | undefined>)[name];
+  return fromProcess || fromImport || fallback;
+}
+
+const POD_API = env('POD_API_URL', 'https://api.photographerondemand.in/').replace(/\/?$/, '/');
 
 const fallback: SiteChrome = {
   blurb: "POD, India's First On Demand Personal Photographer App For Everybody.",
