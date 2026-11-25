@@ -400,13 +400,9 @@ body:has(.nav-toggle:checked) {
   margin-bottom: 1rem;
 }
 
-.footer-brand img:first-child {
-  width: 2.8rem;
-  height: auto;
-}
-
-.footer-brand img:last-child {
-  width: 4.2rem;
+.footer-brand img {
+  display: block;
+  width: 8rem;
   height: auto;
 }
 

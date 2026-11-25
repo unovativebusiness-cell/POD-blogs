@@ -1,4 +1,11 @@
 ---
+import facebookIcon from '../assets/icons/facebook.png';
+import instagramIcon from '../assets/icons/instagram.png';
+import linkedinIcon from '../assets/icons/linkedin.png';
+import youtubeIcon from '../assets/icons/youtube.png';
+import playstoreBadge from '../assets/icons/playstore.png';
+import appstoreBadge from '../assets/icons/appstore.png';
+
 interface Props {
   blurb: string;
   officeLabel: string;
@@ -24,6 +31,42 @@ const legal = [
   ['Privacy policy', 'https://photographerondemand.in/privacypolicy'],
   ['Refund policy', 'https://photographerondemand.in/refundpolicy'],
 ];
+
+const socials = [
+  {
+    href: 'https://www.facebook.com/podphotographerondemand/',
+    label: 'Facebook',
+    src: facebookIcon.src,
+  },
+  {
+    href: 'https://www.instagram.com/podbharat/',
+    label: 'Instagram',
+    src: instagramIcon.src,
+  },
+  {
+    href: 'https://www.linkedin.com/company/podian/',
+    label: 'LinkedIn',
+    src: linkedinIcon.src,
+  },
+  {
+    href: 'https://www.youtube.com/@podphotographerondemand9334',
+    label: 'YouTube',
+    src: youtubeIcon.src,
+  },
+] as const;
+
+const stores = [
+  {
+    href: 'https://play.google.com/store/apps/details?id=com.seawindsolution.pod',
+    label: 'Get it on Google Play',
+    src: playstoreBadge.src,
+  },
+  {
+    href: 'https://apps.apple.com/in/app/photographer-on-demand/id1503321883',
+    label: 'Download on the App Store',
+    src: appstoreBadge.src,
+  },
+] as const;
 ---
 
 <footer class="site-footer">
@@ -88,27 +131,23 @@ const legal = [
         <div class="footer-col">
           <h2>Follow on</h2>
           <div class="socials">
-            <a href="https://www.facebook.com/podphotographerondemand/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-              <img src="/icons/facebook.png" alt="" />
-            </a>
-            <a href="https://www.instagram.com/podbharat/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-              <img src="/icons/instagram.png" alt="" />
-            </a>
-            <a href="https://www.linkedin.com/company/podian/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-              <img src="/icons/linkedin.png" alt="" />
-            </a>
-            <a href="https://www.youtube.com/@podphotographerondemand9334" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-              <img src="/icons/youtube.png" alt="" />
-            </a>
+            {
+              socials.map((item) => (
+                <a href={item.href} target="_blank" rel="noopener noreferrer" aria-label={item.label}>
+                  <img src={item.src} alt="" width="37" height="36" loading="lazy" />
+                </a>
+              ))
+            }
           </div>
           <h2>Download On</h2>
           <div class="stores">
-            <a href="https://play.google.com/store/apps/details?id=com.seawindsolution.pod" target="_blank" rel="noopener noreferrer">
-              <img src="/icons/playstore.png" alt="Get it on Google Play" />
-            </a>
-            <a href="https://apps.apple.com/in/app/photographer-on-demand/id1503321883" target="_blank" rel="noopener noreferrer">
-              <img src="/icons/appstore.png" alt="Download on the App Store" />
-            </a>
+            {
+              stores.map((item) => (
+                <a href={item.href} target="_blank" rel="noopener noreferrer">
+                  <img src={item.src} alt={item.label} width="160" height="48" loading="lazy" />
+                </a>
+              ))
+            }
           </div>
         </div>
       </div>
